@@ -228,20 +228,20 @@ private:
   HWND m_hwnd;					// 
   HDC m_memDc;					// 
   BYTE *m_dib;					// DIB
-  POINT m_point;				// ƒEƒBƒ“ƒhƒE‚ÌˆÊ’u
-  SIZE m_size;					// ƒEƒBƒ“ƒhƒE‚Ì‘å‚«‚³
-  DisplayList m_displayList;			// •\Ž¦‚·‚éƒŠƒXƒg
+  POINT m_point;				// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ä½ç½®
+  SIZE m_size;					// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å¤§ãã•
+  DisplayList m_displayList;			// è¡¨ç¤ºã™ã‚‹ãƒªã‚¹ãƒˆ
 
-  SIZE m_imageSize;				// ŠG‚Ì‘å‚«‚³
+  SIZE m_imageSize;				// çµµã®å¤§ãã•
 
-  std::string m_error;				// ƒGƒ‰[ƒƒbƒZ[ƒW
+  std::string m_error;				// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
   
-  Image *m_image;				// PNG ‰æ‘œ
+  Image *m_image;				// PNG ç”»åƒ
   
-  SPI::Manager m_spiManager;			// SPI ƒ}ƒl[ƒWƒƒ
-  HLOCAL m_hBm, m_hBInfo;			// SPI ‚Å“Ç‚ñ‚¾ŠG
-  void *m_bm;					// ŠG
-  BITMAPINFO *m_bInfo;				// ƒwƒbƒ_
+  SPI::Manager m_spiManager;			// SPI ãƒžãƒãƒ¼ã‚¸ãƒ£
+  HLOCAL m_hBm, m_hBInfo;			// SPI ã§èª­ã‚“ã çµµ
+  void *m_bm;					// çµµ
+  BITMAPINFO *m_bInfo;				// ãƒ˜ãƒƒãƒ€
   
 private:
   void udpate()
@@ -259,7 +259,7 @@ private:
 
   void setOpaque(RECT *i_rc)
   {
-    // ƒ¿‚ð 0xff ‚ÉB
+    // Î±ã‚’ 0xff ã«ã€‚
     for (int y = i_rc->top; y < i_rc->bottom; y ++)
     {
       BYTE *d = m_dib + (m_size.cx * (m_size.cy - y - 1) + i_rc->left) * 4;
@@ -279,15 +279,15 @@ private:
     cursorPt.y -= m_point.y;
     bool buttonLeft = GetKeyState(VK_LBUTTON) < 0;
       
-    // ˜g
+    // æž 
     int frameW = GetSystemMetrics(SM_CXSIZEFRAME);
     int frameH = GetSystemMetrics(SM_CYSIZEFRAME);
     RECT rcFrame = { 0, 0, m_size.cx, m_size.cy };
     DrawFrameControl(m_memDc, &rcFrame, DFC_BUTTON,
 		     DFCS_BUTTONPUSH);
     
-    // ƒLƒƒƒvƒVƒ‡ƒ“
-    int captionH = GetSystemMetrics(SM_CYCAPTION);	// ‚È‚ºH
+    // ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³
+    int captionH = GetSystemMetrics(SM_CYCAPTION);	// ãªãœï¼Ÿ
     RECT rcCaption = { frameW, frameH,
 		       m_size.cx - frameW, frameH + captionH - 1 };
     int flag = 0;
@@ -296,7 +296,7 @@ private:
     DrawCaption(m_hwnd, m_memDc, &rcCaption,
 		flag | DC_ICON | DC_TEXT | DC_GRADIENT);
     
-    // •Â‚¶‚éƒ{ƒ^ƒ“
+    // é–‰ã˜ã‚‹ãƒœã‚¿ãƒ³
     int closeH = captionH - 5;
     int closeW = closeH + 2;
     RECT rcClose = { rcCaption.right - 2 - closeW, rcCaption.top + 2,
@@ -306,7 +306,7 @@ private:
     DrawFrameControl(m_memDc, &rcClose, DFC_CAPTION,
 		     DFCS_CAPTIONCLOSE | pushed);
 
-    // Å‘å‰»ƒ{ƒ^ƒ“
+    // æœ€å¤§åŒ–ãƒœã‚¿ãƒ³
     rcClose.left -= closeW + 2;
     rcClose.right -= closeW + 2;
     pushed = (buttonLeft && PtInRect(&rcClose, cursorPt)) ? DFCS_PUSHED : 0;
@@ -314,7 +314,7 @@ private:
 		     pushed | (IsZoomed(m_hwnd) ? DFCS_CAPTIONRESTORE
 			       : DFCS_CAPTIONMAX));
 
-    // Å¬‰»ƒ{ƒ^ƒ“
+    // æœ€å°åŒ–ãƒœã‚¿ãƒ³
     rcClose.left -= closeW;
     rcClose.right -= closeW;
     pushed = (buttonLeft && PtInRect(&rcClose, cursorPt)) ? DFCS_PUSHED : 0;
@@ -322,11 +322,11 @@ private:
     
     GdiFlush();
 
-    // Gdi ‚Ìƒ¿‚ðÝ’è
+    // Gdi ã®Î±ã‚’è¨­å®š
     RECT rcGdi = { 0, 0, m_size.cx, m_size.cy };
     setOpaque(&rcGdi);
 
-    // ŠG‚ð•`‚­
+    // çµµã‚’æã
     if (hasImage())
     {
       POINT ptDest = { rcCaption.left, rcCaption.top + captionH };
@@ -411,7 +411,7 @@ private:
     if (!i_filename)
       return false;
 
-    // PNG ‚Ìƒ[ƒh
+    // PNG ã®ãƒ­ãƒ¼ãƒ‰
     if (Image *image = readPng(i_filename))
     {
       clear();
@@ -421,7 +421,7 @@ private:
     }
     else
     {
-      // PNG ˆÈŠO‚Ìƒ[ƒh
+      // PNG ä»¥å¤–ã®ãƒ­ãƒ¼ãƒ‰
       const SPI::PlugIn *plugIn = m_spiManager.getPlugIn(i_filename);
       if (!plugIn)
       {

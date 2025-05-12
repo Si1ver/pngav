@@ -16,26 +16,26 @@ namespace SPI
 #  pragma pack(push, 1)
   struct PictureInfo
   {
-    long left;					// ‰æ‘œ‚ğ“WŠJ‚·‚éˆÊ’u
-    long top;					// 	V
-    long width;					// ‰æ‘œ‚Ì•(pixel)
-    long height;				// ‰æ‘œ‚Ì‚‚³(pixel)
-    WORD x_density;				// ‰æ‘f‚Ì…•½•ûŒü–§“x
-    WORD y_density;				// ‰æ‘f‚Ì‚’¼•ûŒü–§“x
-    short colorDepth;				// ‚P‰æ‘f“–‚½‚è‚Ìbit”
-    HLOCAL hInfo;				// ‰æ‘œ“à‚ÌƒeƒLƒXƒgî•ñ
+    long left;					// ç”»åƒã‚’å±•é–‹ã™ã‚‹ä½ç½®
+    long top;					// 	ã€ƒ
+    long width;					// ç”»åƒã®å¹…(pixel)
+    long height;				// ç”»åƒã®é«˜ã•(pixel)
+    WORD x_density;				// ç”»ç´ ã®æ°´å¹³æ–¹å‘å¯†åº¦
+    WORD y_density;				// ç”»ç´ ã®å‚ç›´æ–¹å‘å¯†åº¦
+    short colorDepth;				// ï¼‘ç”»ç´ å½“ãŸã‚Šã®bitæ•°
+    HLOCAL hInfo;				// ç”»åƒå†…ã®ãƒ†ã‚­ã‚¹ãƒˆæƒ…å ±
   };
 #  pragma pack(pop)
 
   struct FileInfo
   {
-    unsigned char method[8];			// ˆ³k–@‚Ìí—Ş
-    unsigned long position;			// ƒtƒ@ƒCƒ‹ã‚Å‚ÌˆÊ’u
-    unsigned long compsize;			// ˆ³k‚³‚ê‚½ƒTƒCƒY
-    unsigned long filesize;			// Œ³‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY
-    time_t timestamp;				// ƒtƒ@ƒCƒ‹‚ÌXV“ú
-    char path[200];				// ‘Š‘ÎƒpƒX
-    char filename[200];				// ƒtƒ@ƒCƒ‹ƒl[ƒ€
+    unsigned char method[8];			// åœ§ç¸®æ³•ã®ç¨®é¡
+    unsigned long position;			// ãƒ•ã‚¡ã‚¤ãƒ«ä¸Šã§ã®ä½ç½®
+    unsigned long compsize;			// åœ§ç¸®ã•ã‚ŒãŸã‚µã‚¤ã‚º
+    unsigned long filesize;			// å…ƒã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚º
+    time_t timestamp;				// ãƒ•ã‚¡ã‚¤ãƒ«ã®æ›´æ–°æ—¥æ™‚
+    char path[200];				// ç›¸å¯¾ãƒ‘ã‚¹
+    char filename[200];				// ãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒ¼ãƒ 
     unsigned long crc;				// CRC
   };
 
@@ -70,20 +70,20 @@ namespace SPI
     FARPROC prgressCallback, long lData);
 
   enum {
-    ERROR_NORMAL		= 0,	// ³íI—¹
-    ERROR_NOT_IMPLEMENTED	= -1,	// ‚»‚Ì‹@”\‚ÍƒCƒ“ƒvƒŠƒƒ“ƒg‚³‚ê‚Ä‚¢‚È‚¢
-    ERROR_STOP_EXTRACT		= 1,	// ƒR[ƒ‹ƒoƒbƒNŠÖ”‚ª”ñ0‚ğ•Ô‚µ‚½‚Ì‚Å“W
-    					// ŠJ‚ğ’†~‚µ‚½
-    ERROR_UNKNOWN_FORMAT	= 2,	// –¢’m‚ÌƒtƒH[ƒ}ƒbƒg
-    ERROR_DAMAGED_DATA		= 3,	// ƒf[ƒ^‚ª‰ó‚ê‚Ä‚¢‚é
-    ERROR_OUT_OF_MEMORY		= 4,	// ƒƒ‚ƒŠ[‚ªŠm•Ûo—ˆ‚È‚¢
-    ERROR_MEMORY		= 5,	// ƒƒ‚ƒŠ[ƒGƒ‰[iLocko—ˆ‚È‚¢A“™j
-    ERROR_READ_FAILED		= 6,	// ƒtƒ@ƒCƒ‹ƒŠ[ƒhƒGƒ‰[
-    ERROR_RESERVED		= 7,	// i—\–ñj
-    ERROR_INTERNAL		= 8,	// “à•”ƒGƒ‰[
+    ERROR_NORMAL		= 0,	// æ­£å¸¸çµ‚äº†
+    ERROR_NOT_IMPLEMENTED	= -1,	// ãã®æ©Ÿèƒ½ã¯ã‚¤ãƒ³ãƒ—ãƒªãƒ¡ãƒ³ãƒˆã•ã‚Œã¦ã„ãªã„
+    ERROR_STOP_EXTRACT		= 1,	// ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ãŒé0ã‚’è¿”ã—ãŸã®ã§å±•
+    					// é–‹ã‚’ä¸­æ­¢ã—ãŸ
+    ERROR_UNKNOWN_FORMAT	= 2,	// æœªçŸ¥ã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+    ERROR_DAMAGED_DATA		= 3,	// ãƒ‡ãƒ¼ã‚¿ãŒå£Šã‚Œã¦ã„ã‚‹
+    ERROR_OUT_OF_MEMORY		= 4,	// ãƒ¡ãƒ¢ãƒªãƒ¼ãŒç¢ºä¿å‡ºæ¥ãªã„
+    ERROR_MEMORY		= 5,	// ãƒ¡ãƒ¢ãƒªãƒ¼ã‚¨ãƒ©ãƒ¼ï¼ˆLockå‡ºæ¥ãªã„ã€ç­‰ï¼‰
+    ERROR_READ_FAILED		= 6,	// ãƒ•ã‚¡ã‚¤ãƒ«ãƒªãƒ¼ãƒ‰ã‚¨ãƒ©ãƒ¼
+    ERROR_RESERVED		= 7,	// ï¼ˆäºˆç´„ï¼‰
+    ERROR_INTERNAL		= 8,	// å†…éƒ¨ã‚¨ãƒ©ãƒ¼
   };
 
-  // ƒvƒ‰ƒOƒCƒ“
+  // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³
   class PlugIn
   {
   public:
@@ -93,15 +93,15 @@ namespace SPI
       typedef std::list<std::string> Patterns;
       
     public:
-      Patterns m_patterns;			// Šg’£qƒpƒ^[ƒ“
-      std::string m_description;		// Šg’£qƒpƒ^[ƒ“‚Ìà–¾
+      Patterns m_patterns;			// æ‹¡å¼µå­ãƒ‘ã‚¿ãƒ¼ãƒ³
+      std::string m_description;		// æ‹¡å¼µå­ãƒ‘ã‚¿ãƒ¼ãƒ³ã®èª¬æ˜
     };
     typedef std::list<Type> Types;
 
   private:
-    HMODULE m_hModule;				// SPI ‚Ìƒnƒ“ƒhƒ‹
+    HMODULE m_hModule;				// SPI ã®ãƒãƒ³ãƒ‰ãƒ«
     bool m_isPicture;				// 00IN:TRUE, 00AM:FALSE
-    Types m_types;				// Šg’£q
+    Types m_types;				// æ‹¡å¼µå­
 
   public:
     GetPluginInfo_t  getPluginInfo;
@@ -114,33 +114,33 @@ namespace SPI
     GetFile_t        getFile;
 
   private:
-    // SPI ƒ‚ƒWƒ…[ƒ‹‚©‚çA—˜—p‰Â”\‚ÈŠg’£q‚ÌƒŠƒXƒg‚ğ“Ç‚İo‚·
+    // SPI ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‹ã‚‰ã€åˆ©ç”¨å¯èƒ½ãªæ‹¡å¼µå­ã®ãƒªã‚¹ãƒˆã‚’èª­ã¿å‡ºã™
     void getType();
 
   public:
-    // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+    // ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     PlugIn();
 
-    // ƒfƒXƒgƒ‰ƒNƒ^
+    // ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
     ~PlugIn();
   
-    // SPI ƒ‚ƒWƒ…[ƒ‹‚Ìƒ[ƒh
+    // SPI ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒ­ãƒ¼ãƒ‰
     bool load(const std::string &i_path);
 
-    // SPI ƒ‚ƒWƒ…[ƒ‹‚ÌƒAƒ“ƒ[ƒh
+    // SPI ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰
     void unload();
 
-    // ‚±‚Ì SPI ‚ª filename ‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚ß‚é‚©‚Ç‚¤‚© (Šg’£q‚Å”»•Ê)
+    // ã“ã® SPI ãŒ filename ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã‚ã‚‹ã‹ã©ã†ã‹ (æ‹¡å¼µå­ã§åˆ¤åˆ¥)
     const Type *doesMatch(const std::string &i_filename);
     
-    // SPI ƒ‚ƒWƒ…[ƒ‹‚ªƒ[ƒh‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
+    // SPI ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ãŒãƒ­ãƒ¼ãƒ‰ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹
     bool isLoaded() { return !!m_hModule; }
     
-    // ‚±‚Ì SPI ƒ‚ƒWƒ…[ƒ‹‚ÍŠG‚ğ“WŠJ‚·‚é‚à‚Ì‚©H‘ŒÉ‚ğ“WŠJ‚·‚é‚à‚Ì‚©H
+    // ã“ã® SPI ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¯çµµã‚’å±•é–‹ã™ã‚‹ã‚‚ã®ã‹ï¼Ÿæ›¸åº«ã‚’å±•é–‹ã™ã‚‹ã‚‚ã®ã‹ï¼Ÿ
     bool isPicture() { return m_isPicture; }
   };
 
-  // ƒvƒ‰ƒOƒCƒ“ƒ}ƒl[ƒWƒƒ
+  // ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒãƒãƒ¼ã‚¸ãƒ£
   class Manager
   {
   public:
@@ -153,19 +153,19 @@ namespace SPI
     // destructor
     ~Manager();
     
-    // SPI ‚Ìƒ[ƒh
+    // SPI ã®ãƒ­ãƒ¼ãƒ‰
     bool load(const std::string &i_path = "");
     
-    // SPI ‚ÌƒAƒ“ƒ[ƒh
+    // SPI ã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰
     void unload();
     
-    // ƒtƒ@ƒCƒ‹–¼‚©‚çƒvƒ‰ƒOƒCƒ“‚ğ“¾‚é
+    // ãƒ•ã‚¡ã‚¤ãƒ«åã‹ã‚‰ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’å¾—ã‚‹
     PlugIn *getPlugIn(const std::string &i_filename);
 
-    // SPI ‚Ì‘¶İ‚·‚éƒpƒX‚ğæ“¾‚·‚é
+    // SPI ã®å­˜åœ¨ã™ã‚‹ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
     static std::string getPath();
 
-    // SPI ‚Ì‘¶İ‚·‚éƒpƒX‚ğİ’è‚·‚é
+    // SPI ã®å­˜åœ¨ã™ã‚‹ãƒ‘ã‚¹ã‚’è¨­å®šã™ã‚‹
     static bool setPath(const std::string &i_path);
   };
 }

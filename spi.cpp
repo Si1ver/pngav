@@ -13,7 +13,7 @@ namespace SPI
   /////////////////////////////////////////////////////////////////////////////
   // PlugIn
   
-  // SPI ƒ‚ƒWƒ…[ƒ‹‚©‚çA—˜—p‰Â”\‚ÈŠg’£q‚ÌƒŠƒXƒg‚ğ“Ç‚İo‚·
+  // SPI ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‹ã‚‰ã€åˆ©ç”¨å¯èƒ½ãªæ‹¡å¼µå­ã®ãƒªã‚¹ãƒˆã‚’èª­ã¿å‡ºã™
   void PlugIn::getType()
   {
     for (int i = 0; ; ++ i)
@@ -26,7 +26,7 @@ namespace SPI
       m_types.push_back(Type());
       Type &type = m_types.back();
 
-      // ƒpƒ^[ƒ“‚ğ“¾‚é
+      // ãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’å¾—ã‚‹
       for (char *s = buf; ; )
       {
 	char *b = s;
@@ -41,14 +41,14 @@ namespace SPI
 	++ s;
       }
 
-      // à–¾‚ğ“¾‚é
+      // èª¬æ˜ã‚’å¾—ã‚‹
       getPluginInfo(2 * i + 3, buf, sizeof(buf));
       type.m_description = buf;
     }
   }
 
 
-  // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+  // ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
   PlugIn::PlugIn()
     : m_hModule(NULL),
       m_isPicture(true),
@@ -63,13 +63,13 @@ namespace SPI
   {
   }
 
-  // ƒfƒXƒgƒ‰ƒNƒ^
+  // ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
   PlugIn::~PlugIn()
   {
     unload();
   }
 
-  // SPI ƒ‚ƒWƒ…[ƒ‹‚Ìƒ[ƒh
+  // SPI ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ãƒ­ãƒ¼ãƒ‰
   bool PlugIn::load(const std::string &i_path)
   {
     unload();
@@ -98,13 +98,13 @@ namespace SPI
     {
       char buf[1024];
       getPluginInfo(0, buf, sizeof(buf));
-      if (strcmp(buf, "00IN") == 0) // ŠG
+      if (strcmp(buf, "00IN") == 0) // çµµ
       {
 	m_isPicture = TRUE;
 	getType();
 	return true;
       }
-      else if (strcmp(buf, "00AM") == 0) // ‘ŒÉ
+      else if (strcmp(buf, "00AM") == 0) // æ›¸åº«
       {
 	m_isPicture = false;
 	getType();
@@ -115,7 +115,7 @@ namespace SPI
     return false;
   }
   
-  // SPI ƒ‚ƒWƒ…[ƒ‹‚ÌƒAƒ“ƒ[ƒh
+  // SPI ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰
   void PlugIn::unload()
   {
     if (m_hModule)
@@ -126,7 +126,7 @@ namespace SPI
     m_types.clear();
   }
 
-  // ‚±‚Ì SPI ‚ª filename ‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚ß‚é‚©‚Ç‚¤‚© (Šg’£q‚Å”»•Ê)
+  // ã“ã® SPI ãŒ filename ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã‚ã‚‹ã‹ã©ã†ã‹ (æ‹¡å¼µå­ã§åˆ¤åˆ¥)
   const PlugIn::Type *PlugIn::doesMatch(const std::string &i_filename)
   {
     for (Types::iterator i = m_types.begin(); i != m_types.end(); ++ i)
@@ -149,7 +149,7 @@ namespace SPI
     unload();
   }
 
-  // SPI ‚Ìƒ[ƒh
+  // SPI ã®ãƒ­ãƒ¼ãƒ‰
   bool Manager::load(const std::string &i_path)
   {
     unload();
@@ -159,7 +159,7 @@ namespace SPI
       path = getPath();
     path += "\\";
 
-    // SPI ‚ğƒ[ƒh
+    // SPI ã‚’ãƒ­ãƒ¼ãƒ‰
     WIN32_FIND_DATA fd;
     std::string pattern = path + "*.spi";
     HANDLE hff = FindFirstFile(pattern.c_str(), &fd);
@@ -173,13 +173,13 @@ namespace SPI
     return true;
   }
 
-  // SPI ‚ÌƒAƒ“ƒ[ƒh
+  // SPI ã®ã‚¢ãƒ³ãƒ­ãƒ¼ãƒ‰
   void Manager::unload()
   {
     m_plugIns.clear();
   }
 
-  // ƒtƒ@ƒCƒ‹–¼‚©‚çƒvƒ‰ƒOƒCƒ“‚ğ“¾‚é
+  // ãƒ•ã‚¡ã‚¤ãƒ«åã‹ã‚‰ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚’å¾—ã‚‹
   PlugIn *Manager::getPlugIn(const std::string &i_filename)
   {
     for (PlugIns::iterator i = m_plugIns.begin(); i != m_plugIns.end(); ++ i)
@@ -188,7 +188,7 @@ namespace SPI
     return NULL;
   }
   
-  // SPI ‚Ì‘¶İ‚·‚éƒpƒX‚ğæ“¾‚·‚é
+  // SPI ã®å­˜åœ¨ã™ã‚‹ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
   std::string Manager::getPath()
   {
     char buf[1024] = ".";
@@ -204,7 +204,7 @@ namespace SPI
     return path;
   }
 
-  // SPI ‚Ì‘¶İ‚·‚éƒpƒX‚ğİ’è‚·‚é
+  // SPI ã®å­˜åœ¨ã™ã‚‹ãƒ‘ã‚¹ã‚’è¨­å®šã™ã‚‹
   bool Manager::setPath(const std::string &i_path)
   {
     return Registry::write(HKEY_CURRENT_USER,
