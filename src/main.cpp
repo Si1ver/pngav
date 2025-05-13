@@ -144,7 +144,7 @@ Image *readPng(const char *i_filename)
 		 (PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING |
 		  PNG_TRANSFORM_EXPAND), NULL);
     
-    DWORD width, height;
+    uint32_t width, height;
     int bit_depth, color_type;
     png_get_IHDR(png_ptr, info_ptr, &width, &height, &bit_depth, &color_type,
 		 NULL, NULL, NULL);
@@ -227,12 +227,12 @@ class PNGAlphaViewer
 private:
   HWND m_hwnd;					// 
   HDC m_memDc;					// 
-  BYTE *m_dib;					// DIB
-  POINT m_point;				// ウィンドウの位置
-  SIZE m_size;					// ウィンドウの大きさ
+  BYTE *m_dib = nullptr;					// DIB
+  POINT m_point = {};// ウィンドウの位置
+  SIZE m_size = {};// ウィンドウの大きさ
   DisplayList m_displayList;			// 表示するリスト
 
-  SIZE m_imageSize;				// 絵の大きさ
+  SIZE m_imageSize = {};// 絵の大きさ
 
   std::string m_error;				// エラーメッセージ
   
@@ -240,8 +240,8 @@ private:
   
   SPI::Manager m_spiManager;			// SPI マネージャ
   HLOCAL m_hBm, m_hBInfo;			// SPI で読んだ絵
-  void *m_bm;					// 絵
-  BITMAPINFO *m_bInfo;				// ヘッダ
+  void *m_bm = nullptr;					// 絵
+  BITMAPINFO *m_bInfo = nullptr;				// ヘッダ
   
 private:
   void udpate()
@@ -708,13 +708,13 @@ private:
   static LRESULT CALLBACK wndProc(HWND i_hwnd, UINT i_message,
 				  WPARAM i_wParam, LPARAM i_lParam)
   {
-    PNGAlphaViewer *This = (PNGAlphaViewer *)GetWindowLong(i_hwnd, 0);
+    PNGAlphaViewer *This = (PNGAlphaViewer *)GetWindowLongPtr(i_hwnd, 0);
     if (!This)
       switch (i_message)
       {
 	case WM_CREATE:
 	  This = new PNGAlphaViewer(i_hwnd);
-	  SetWindowLong(i_hwnd, 0, (long)This);
+	  SetWindowLongPtr(i_hwnd, 0, (LONG_PTR)This);
 	  return This->wmCreate((CREATESTRUCT *)i_lParam);
       }
     else 

@@ -20,10 +20,6 @@
 // C4552 'operator' : operator has no effect
 #    pragma warning(disable : 4061 4100 4132 4552 4701 4706 4786)
 
-#    define snprintf _snprintf
-#    define setmode _setmode
-#    define for if (false) ; else for
-
 
 // ////////////////////////////////////////////////////////////////////////////
 // Borland C++ 5.5 
