@@ -1,16 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 // registry.cpp
 
-
 #include "registry.h"
+
 #include <malloc.h>
 
-
-using namespace std;
-
-
 // remove
-bool Registry::remove(HKEY i_root, const string &i_path, const string &i_name)
+bool Registry::remove(HKEY i_root, const std::string &i_path, const std::string &i_name)
 {
   if (i_name.empty()) return RegDeleteKey(i_root, i_path.c_str()) == ERROR_SUCCESS;
   HKEY hkey;
@@ -24,7 +20,7 @@ bool Registry::remove(HKEY i_root, const string &i_path, const string &i_name)
 
 
 // does exist the key ?
-bool Registry::doesExist(HKEY i_root, const string &i_path)
+bool Registry::doesExist(HKEY i_root, const std::string &i_path)
 {
   HKEY hkey;
   if (ERROR_SUCCESS !=
@@ -37,8 +33,8 @@ bool Registry::doesExist(HKEY i_root, const string &i_path)
 
 // read DWORD
 bool Registry::read(HKEY i_root,
-  const string &i_path,
-  const string &i_name,
+  const std::string &i_path,
+  const std::string &i_name,
   int *o_value,
   int i_defaultValue)
 {
@@ -63,8 +59,8 @@ bool Registry::read(HKEY i_root,
 
 // write DWORD
 bool Registry::write(HKEY i_root,
-  const string &i_path,
-  const string &i_name,
+  const std::string &i_path,
+  const std::string &i_name,
   int i_value)
 {
   HKEY hkey;
@@ -95,10 +91,10 @@ bool Registry::write(HKEY i_root,
 
 // read string
 bool Registry::read(HKEY i_root,
-  const string &i_path,
-  const string &i_name,
-  string *o_value,
-  const string &i_defaultValue)
+  const std::string &i_path,
+  const std::string &i_name,
+  std::string *o_value,
+  const std::string &i_defaultValue)
 {
   HKEY hkey;
   if (ERROR_SUCCESS ==
@@ -125,9 +121,9 @@ bool Registry::read(HKEY i_root,
 
 // write string
 bool Registry::write(HKEY i_root,
-  const string &i_path,
-  const string &i_name,
-  const string &i_value)
+  const std::string &i_path,
+  const std::string &i_name,
+  const std::string &i_value)
 {
   HKEY hkey;
   DWORD disposition;
@@ -157,8 +153,8 @@ bool Registry::write(HKEY i_root,
 
 // read binary
 bool Registry::read(HKEY i_root,
-  const string &i_path,
-  const string &i_name,
+  const std::string &i_path,
+  const std::string &i_name,
   BYTE *o_value,
   DWORD i_valueSize,
   const BYTE *i_defaultValue,
@@ -189,8 +185,8 @@ bool Registry::read(HKEY i_root,
 
 // write binary
 bool Registry::write(HKEY i_root,
-  const string &i_path,
-  const string &i_name,
+  const std::string &i_path,
+  const std::string &i_name,
   const BYTE *i_value,
   DWORD i_valueSize)
 {

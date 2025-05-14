@@ -3,13 +3,13 @@
 
 
 #ifndef _SPI_H
-#  define _SPI_H
+#define _SPI_H
 
-#  include <Windows.h>
-#  include <sys/types.h>
-#  include <list>
-#  include <string>
+#include <list>
+#include <string>
 
+#include <sys/types.h>
+#include <Windows.h>
 
 namespace SPI {
 #  pragma pack(push, 1)

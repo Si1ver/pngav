@@ -1,18 +1,17 @@
 ///////////////////////////////////////////////////////////////////////////////
 // pngav
 
-
-#include "misc.h"
-#include "spi.h"
-#include "resource.h"
-#include <locale.h>
-#include <png.h>
+#include <algorithm>
+#include <clocale>
 #include <list>
 #include <string>
 #include <vector>
-#include <algorithm>
 
-using namespace std;
+#include <png.h>
+
+#include "misc.h"
+#include "resource.h"
+#include "spi.h"
 
 
 HINSTANCE hInst;
@@ -91,8 +90,10 @@ public:
   {
     DWORD x2 = i_x + i_image->m_width;
     DWORD y2 = i_y + i_image->m_height;
-    if (m_width < x2) x2 = m_width;
-    if (m_height < y2) y2 = m_height;
+
+    x2 = std::min(m_width, x2);
+    y2 = std::min(m_height, y2);
+
     if (x2 <= i_x || y2 <= i_y) return;
 
     DWORD width = x2 - i_x;
@@ -228,7 +229,7 @@ class PNGAlphaViewer
   void *m_bm = nullptr;// 絵
   BITMAPINFO *m_bInfo = nullptr;// ヘッダ
 
-  void udpate()
+  void update()
   {
     BLENDFUNCTION bf;
     bf.BlendOp = AC_SRC_OVER;
@@ -328,13 +329,12 @@ class PNGAlphaViewer
       POINT ptDest = { rcCaption.left, rcCaption.top + captionH };
       SIZE size = { rcCaption.right - rcCaption.left,
                     m_size.cy - frameH - ptDest.y };
-      SIZE imageSize = { MIN(size.cx, m_imageSize.cx),
-                         MIN(size.cy, m_imageSize.cy) };
+      SIZE imageSize = { std::min(size.cx, m_imageSize.cx),
+                         std::min(size.cy, m_imageSize.cy) };
 
       if (m_image) {
         POINT ptSrc = { 0, 0 };
         for (int y = 0; y < imageSize.cy; y++) {
-          int x = 0;
           BYTE *s = m_image->m_data[y + ptSrc.y] + ptSrc.x * 4;
           BYTE *d = m_dib + (m_size.cx * (m_size.cy - y - ptDest.y - 1)
                              + ptDest.x) * 4;
@@ -376,7 +376,7 @@ class PNGAlphaViewer
       }
     }
 
-    udpate();
+    update();
   }
 
   void resize()

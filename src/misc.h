@@ -5,13 +5,13 @@
 #ifndef _MISC_H
 #  define _MISC_H
 
+// See for more information about including windows.h
+// https://learn.microsoft.com/en-gb/windows/win32/winprog/using-the-windows-headers
+
+#define NOMINMAX
+
 #  include <windows.h>
 #  include <assert.h>
-
-
-using u_char = unsigned char;/// unsigned char
-using u_short = unsigned short;/// unsigned short
-using u_long = unsigned long;/// unsigned long
 
 #  ifdef NDEBUG
 #    define ASSERT(exp)		exp
@@ -25,23 +25,7 @@ using u_long = unsigned long;/// unsigned long
 #    define CHECK_FALSE(exp)	assert(!(exp))
 #  endif // NDEBUG
 
-
 /// get number of array elements
 #  define NUMBER_OF(a) (sizeof(a) / sizeof((a)[0]))
-
-/// max path length
-#  define GANA_MAX_PATH		(MAX_PATH * 4)
-
-/// max length of global atom
-#  define GANA_MAX_ATOM_LENGTH	256
-
-/// max
-#  undef MAX
-#  define MAX(a, b)	(((b) < (a)) ? (a) : (b))
-
-/// min
-#  undef MIN
-#  define MIN(a, b)	(((a) < (b)) ? (a) : (b))
-
 
 #endif // _MISC_H

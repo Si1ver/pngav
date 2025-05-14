@@ -2,10 +2,11 @@
 // registry.h
 
 #ifndef _REGISTRY_H
-#  define _REGISTRY_H
+#define _REGISTRY_H
 
-#  include <string>
-#  include <windows.h>
+#include <string>
+
+#include <windows.h>
 
 
 //
@@ -30,7 +31,7 @@ public:
     m_path = i_path;
   }
 
-  // remvoe
+  // remove
   bool remove(const std::string &i_name = "") const { return remove(m_root, m_path, i_name); }
 
   // does exist the key ?
