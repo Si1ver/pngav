@@ -231,7 +231,7 @@ class PNGAlphaViewer
 
   void update()
   {
-    BLENDFUNCTION bf;
+    BLENDFUNCTION bf = {};
     bf.BlendOp = AC_SRC_OVER;
     bf.BlendFlags = 0;
     bf.SourceConstantAlpha = 255;
@@ -381,15 +381,14 @@ class PNGAlphaViewer
 
   void resize()
   {
-    RECT rc;
+    RECT rc = {};
     GetWindowRect(m_hwnd, &rc);
     m_point.x = rc.left;
     m_point.y = rc.top;
     m_size.cx = rc.right - rc.left;
     m_size.cy = rc.bottom - rc.top;
 
-    BITMAPINFOHEADER bi;
-    memset(&bi, 0, sizeof(bi));
+    BITMAPINFOHEADER bi = {};
     bi.biSize = sizeof(bi);
     bi.biWidth = m_size.cx;
     bi.biHeight = m_size.cy;
@@ -479,7 +478,7 @@ class PNGAlphaViewer
 
   void displayCurrent()
   {
-    if (m_displayList.size()) {
+    if (!m_displayList.empty()) {
       const char *filename = m_displayList.front().c_str();
       if (!load(filename) && isError())
         GetTextExtentPoint32(m_memDc,
@@ -492,7 +491,7 @@ class PNGAlphaViewer
         else {
           char buf[1024];
           snprintf(buf,
-            NUMBER_OF(buf),
+            std::size(buf),
             "%s (%dx%d)",
             filename,
             m_imageSize.cx,
@@ -517,10 +516,10 @@ class PNGAlphaViewer
   void displayNext()
   {
     if (isError()) {
-      if (m_displayList.size()) m_displayList.pop_front();
+      if (!m_displayList.empty()) m_displayList.pop_front();
       displayCurrent();
     } else {
-      if (m_displayList.size()) {
+      if (!m_displayList.empty()) {
         m_displayList.push_back(m_displayList.front());
         m_displayList.pop_front();
         displayCurrent();
@@ -530,17 +529,17 @@ class PNGAlphaViewer
 
   void displayPrev()
   {
-    if (isError() && m_displayList.size()) m_displayList.pop_front();
-    if (m_displayList.size()) {
+    if (isError() && !m_displayList.empty()) m_displayList.pop_front();
+    if (!m_displayList.empty()) {
       m_displayList.push_front(m_displayList.back());
       m_displayList.pop_back();
       displayCurrent();
     }
   }
 
-  bool isError() { return !m_error.empty(); }
+  bool isError() const { return !m_error.empty(); }
 
-  bool hasImage() { return m_image || (m_hBm && m_hBInfo) || isError(); }
+  bool hasImage() const { return m_image || (m_hBm && m_hBInfo) || isError(); }
 
   void clear()
   {
@@ -577,7 +576,7 @@ class PNGAlphaViewer
       std::sort(files.begin(), files.end());
       m_displayList.insert(m_displayList.begin(), files.begin(), files.end());
     } else
-      for (int i = 1; i < __argc; ++i) m_displayList.push_back(__argv[i]);
+      for (int i = 1; i < __argc; ++i) m_displayList.emplace_back(__argv[i]);
   }
 
   ~PNGAlphaViewer()
@@ -595,7 +594,7 @@ class PNGAlphaViewer
   }
 
   // WM_SIZE
-  void wmSize(int i_flag, int i_width, int i_height) { resize(); }
+  void wmSize([[maybe_unused]] int i_flag, [[maybe_unused]] int i_width, [[maybe_unused]] int i_height) { resize(); }
 
   // WM_MOVE
   void wmMove(int /* i_x */, int /* i_y */)
@@ -607,14 +606,14 @@ class PNGAlphaViewer
   }
 
   // WM_MOVING
-  void wmMoving(int i_flag, RECT *io_rect)
+  void wmMoving([[maybe_unused]] int i_flag, RECT *io_rect)
   {
     m_point.x = io_rect->left;
     m_point.y = io_rect->top;
   }
 
   // WM_ACTIVATE
-  void wmActivate(int i_flag, HWND i_hwnd) { draw(); }
+  void wmActivate([[maybe_unused]] int i_flag, [[maybe_unused]] HWND i_hwnd) { draw(); }
 
   // WM_CLOSE
   void wmClose() { PostQuitMessage(0); }
@@ -632,11 +631,11 @@ class PNGAlphaViewer
     }
   }
 
-  // WM_DESTRY
+  // WM_DESTROY
   void wmDestroy() {}
 
   // WM_NCLBUTTONDOWN
-  bool wmNcLButtonDown(int i_hitTest, POINT i_point)
+  bool wmNcLButtonDown(int i_hitTest, [[maybe_unused]] POINT i_point)
   {
     if (i_hitTest == HTCLOSE ||
         i_hitTest == HTMAXBUTTON ||
@@ -648,12 +647,13 @@ class PNGAlphaViewer
   // WM_DROPFILES
   void wmDropFiles(HDROP i_hDrop)
   {
-    size_t n = DragQueryFile(i_hDrop, -1, nullptr, 0);
+    constexpr UINT get_file_count = 0xFFFFFFFF;
+    size_t n = DragQueryFile(i_hDrop, get_file_count, nullptr, 0);
     std::vector<std::string> files;
     files.resize(n);
     for (size_t i = 0; i < n; ++i) {
       char buf[1024];
-      DragQueryFile(i_hDrop, i, buf, NUMBER_OF(buf));
+      DragQueryFile(i_hDrop, i, buf, std::size(buf));
       files[i] = buf;
     }
     std::sort(files.begin(), files.end());
@@ -663,7 +663,7 @@ class PNGAlphaViewer
   }
 
   // WM_KEYDOWN
-  bool wmKeyDown(UINT i_vkey, UINT i_flags)
+  bool wmKeyDown(UINT i_vkey, [[maybe_unused]] UINT i_flags)
   {
     switch (i_vkey) {
     case VK_SPACE:
@@ -671,17 +671,21 @@ class PNGAlphaViewer
     case 'N':
       displayNext();
       return true;
+
     case VK_BACK:
     case VK_DELETE:
     case 'P':
       displayPrev();
       return true;
+
     case VK_ESCAPE:
     case 'Q':
       PostQuitMessage(0);
       return true;
+
+    default:
+      return false;
     }
-    return false;
   }
 
   //
@@ -741,7 +745,7 @@ public:
   // register class
   static ATOM registerClass()
   {
-    WNDCLASS wc;
+    WNDCLASS wc = {};
     wc.style = 0;
     wc.lpfnWndProc = wndProc;
     wc.cbClsExtra = 0;
@@ -760,12 +764,12 @@ public:
 
 
 // main
-int WINAPI WinMain(HINSTANCE i_hInstance,
-  HINSTANCE /* i_hPrevInstance */,
-  LPSTR /* i_lpszCmdLine */,
-  int /* i_nCmdShow */)
+int WINAPI WinMain(HINSTANCE hInstance,
+  [[maybe_unused]] HINSTANCE hPrevInstance,
+  [[maybe_unused]] LPSTR lpszCmdLine,
+  [[maybe_unused]] int nCmdShow)
 {
-  hInst = i_hInstance;
+  hInst = hInstance;
 
   CHECK(!!, setlocale(LC_ALL, ""));
 
@@ -786,7 +790,7 @@ int WINAPI WinMain(HINSTANCE i_hInstance,
       nullptr);
   ShowWindow(hwndPNGAlphaViewer, SW_SHOWDEFAULT);
 
-  MSG msg;
+  MSG msg = {};
   while (0 < GetMessage(&msg, nullptr, 0, 0)) {
     TranslateMessage(&msg);
     DispatchMessage(&msg);
@@ -794,5 +798,5 @@ int WINAPI WinMain(HINSTANCE i_hInstance,
 
   DestroyWindow(hwndPNGAlphaViewer);
 
-  return msg.wParam;
+  return static_cast<int>(msg.wParam);
 }

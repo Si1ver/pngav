@@ -21,8 +21,8 @@ public:
     : m_root(nullptr) {}
 
   // constructor
-  Registry(HKEY i_root, const std::string &i_path)
-    : m_root(i_root), m_path(i_path) {}
+  Registry(HKEY i_root, std::string i_path)
+    : m_root(i_root), m_path(std::move(i_path)) {}
 
   // set registry m_root and m_path
   void setM_Root(HKEY i_root, const std::string &i_path)
@@ -77,7 +77,7 @@ public:
     const BYTE *i_value,
     DWORD i_valueSize) const { return write(m_root, m_path, i_name, i_value, i_valueSize); }
 
-#  define REGISTRY_PATH							\
+#  define REGISTRY_PATH \
   HKEY i_root, const std::string &i_path, const std::string &i_name
 
   // remove

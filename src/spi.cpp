@@ -20,7 +20,7 @@ void PlugIn::getType()
     int len = getPluginInfo(2 * i + 2, buf, sizeof(buf));
     if (len == 0) break;
 
-    m_types.push_back(Type());
+    m_types.emplace_back();
     Type &type = m_types.back();
 
     // パターンを得る
@@ -28,10 +28,10 @@ void PlugIn::getType()
       char *b = s;
       s = (char *)_mbschr((unsigned char *)s, ';');
       if (s == nullptr) {
-        if (*b) type.m_patterns.push_back(b);
+        if (*b) type.m_patterns.emplace_back(b);
         break;
       }
-      type.m_patterns.push_back(std::string(b, s));
+      type.m_patterns.emplace_back(b, s);
       ++s;
     }
 
@@ -115,11 +115,12 @@ void PlugIn::unload()
 // この SPI が filename のファイルを読めるかどうか (拡張子で判別)
 const PlugIn::Type *PlugIn::doesMatch(const std::string &i_filename)
 {
-  for (auto i = m_types.begin(); i != m_types.end(); ++i)
+  for (auto &m_type : m_types) {
     for (auto
-         j = i->m_patterns.begin(); j != i->m_patterns.end(); ++j) {
-      if (PathMatchSpec(i_filename.c_str(), j->c_str())) return &*i;
+         j = m_type.m_patterns.begin(); j != m_type.m_patterns.end(); ++j) {
+      if (PathMatchSpec(i_filename.c_str(), j->c_str())) return &m_type;
     }
+  }
   return nullptr;
 }
 
@@ -145,7 +146,7 @@ bool Manager::load(const std::string &i_path)
   HANDLE hff = FindFirstFile(pattern.c_str(), &fd);
   if (hff == INVALID_HANDLE_VALUE) return false;
   do {
-    m_plugIns.push_back(PlugIn());
+    m_plugIns.emplace_back();
     m_plugIns.back().load(path + fd.cFileName);
   } while (FindNextFile(hff, &fd));
   FindClose(hff);
@@ -158,8 +159,9 @@ void Manager::unload() { m_plugIns.clear(); }
 // ファイル名からプラグインを得る
 PlugIn *Manager::getPlugIn(const std::string &i_filename)
 {
-  for (auto i = m_plugIns.begin(); i != m_plugIns.end(); ++i)
-    if (i->doesMatch(i_filename)) return &*i;
+  for (auto &m_plugIn : m_plugIns) {
+    if (m_plugIn.doesMatch(i_filename)) return &m_plugIn;
+  }
   return nullptr;
 }
 
@@ -173,7 +175,7 @@ std::string Manager::getPath()
   }
   std::string path;
   Registry::read(HKEY_CURRENT_USER,
-    "Software\\Takechin\\Susie\\Plug-in",
+    R"(Software\Takechin\Susie\Plug-in)",
     "Path",
     &path,
     buf);
@@ -184,7 +186,7 @@ std::string Manager::getPath()
 bool Manager::setPath(const std::string &i_path)
 {
   return Registry::write(HKEY_CURRENT_USER,
-    "Software\\Takechin\\Susie\\Plug-in",
+    R"(Software\Takechin\Susie\Plug-in)",
     "Path",
     i_path);
 }

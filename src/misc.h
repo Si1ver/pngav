@@ -25,7 +25,4 @@
 #    define CHECK_FALSE(exp)	assert(!(exp))
 #  endif // NDEBUG
 
-/// get number of array elements
-#  define NUMBER_OF(a) (sizeof(a) / sizeof((a)[0]))
-
 #endif // _MISC_H

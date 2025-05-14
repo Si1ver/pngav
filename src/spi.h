@@ -40,58 +40,58 @@ struct FileInfo
 
 #  define DllExport __declspec(dllexport)
 
-using GetPluginInfo_t = int DllExport(FAR PASCAL *)(
+using GetPluginInfo_t = int DllExport(PASCAL *)(
   int infono,
   LPSTR buf,
   int buflen);
 
-using IsSupported_t = int DllExport(FAR PASCAL *)(
+using IsSupported_t = int DllExport(PASCAL *)(
   LPSTR filename,
   DWORD dw);
 
-using GetPictureInfo_t = int DllExport(FAR PASCAL *)(
+using GetPictureInfo_t = int DllExport(PASCAL *)(
   LPSTR buf,
   long len,
   unsigned int flag,
-  struct PictureInfo FAR *lpInfo);
+  struct PictureInfo *lpInfo);
 
-using GetPicture_t = int DllExport(FAR PASCAL *)(
+using GetPicture_t = int DllExport(PASCAL *)(
   LPCSTR buf,
   long len,
   unsigned int flag,
-  HLOCAL FAR *pHBInfo,
-  HLOCAL FAR *pHBm,
-  FARPROC lpPrgressCallback,
+  HLOCAL *pHBInfo,
+  HLOCAL *pHBm,
+  PROC lpProgressCallback,
   long lData);
 
-using GetPreview_t = int DllExport(FAR PASCAL *)(
+using GetPreview_t = int DllExport(PASCAL *)(
   LPSTR buf,
   long len,
   unsigned int flag,
   HLOCAL *pHBInfo,
-  HLOCAL FAR *pHBm,
-  FARPROC lpPrgressCallback,
+  HLOCAL *pHBm,
+  PROC lpProgressCallback,
   long lData);
 
-using GetArchiveInfo_t = int DllExport(FAR PASCAL *)(
+using GetArchiveInfo_t = int DllExport(PASCAL *)(
   LPSTR buf,
   long len,
   unsigned int flag,
-  HGLOBAL FAR *lphInf);
+  HGLOBAL *lphInf);
 
-using GetFileInfo_t = int DllExport(FAR PASCAL *)(
+using GetFileInfo_t = int DllExport(PASCAL *)(
   LPSTR buf,
   long len,
   LPSTR filename,
   unsigned int flag,
-  FileInfo FAR *lpInfo);
+  FileInfo *lpInfo);
 
-using GetFile_t = int DllExport(FAR PASCAL *)(
+using GetFile_t = int DllExport(PASCAL *)(
   LPSTR src,
   long len,
   LPSTR dest,
   unsigned int flag,
-  FARPROC prgressCallback,
+  PROC progressCallback,
   long lData);
 
 enum
