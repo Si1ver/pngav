@@ -35,7 +35,7 @@
       "jobs": 8
     },
     {
-      "name": "windows-x64-vs2022-Debug",
+      "name": "windows-x64-vs2022-release",
       "configurePreset": "windows-x64-vs2022-release",
       "description": "Build the default x64 Release preset using Visual Studio 2022",
       "jobs": 8
