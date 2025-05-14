@@ -9,9 +9,9 @@
 #  include <assert.h>
 
 
-typedef unsigned char u_char;		/// unsigned char
-typedef unsigned short u_short;		/// unsigned short
-typedef unsigned long u_long;		/// unsigned long
+using u_char = unsigned char;/// unsigned char
+using u_short = unsigned short;/// unsigned short
+using u_long = unsigned long;/// unsigned long
 
 #  ifdef NDEBUG
 #    define ASSERT(exp)		exp
