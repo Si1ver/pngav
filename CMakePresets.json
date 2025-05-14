@@ -8,36 +8,48 @@
   "configurePresets": [
     {
       "name": "windows-x64-vs2022-debug",
-      "displayName": "Debug build for Windows x64",
+      "displayName": "Configure Windows x64 Debug (VS2022)",
+      "description": "Configures a Debug build using Visual Studio 2022 for x64 architecture.",
       "generator": "Visual Studio 17 2022",
+      "architecture": {
+        "value": "x64"
+      },
+      "toolchainFile": "$env{VCPKG_ROOT}\\scripts\\buildsystems\\vcpkg.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_CONFIGURATION_TYPES": "Debug",
-        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}\\scripts\\buildsystems\\vcpkg.cmake"
+        "CMAKE_CONFIGURATION_TYPES": "Debug"
       }
     },
     {
       "name": "windows-x64-vs2022-release",
-      "displayName": "Release build for Windows x64",
+      "displayName": "Configure Windows x64 Release (VS2022)",
+      "description": "Configures a Release build using Visual Studio 2022 for x64 architecture.",
       "generator": "Visual Studio 17 2022",
+      "architecture": {
+        "value": "x64"
+      },
+      "toolchainFile": "$env{VCPKG_ROOT}\\scripts\\buildsystems\\vcpkg.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_CONFIGURATION_TYPES": "Release",
-        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}\\scripts\\buildsystems\\vcpkg.cmake"
+        "CMAKE_CONFIGURATION_TYPES": "Release"
       }
     }
   ],
   "buildPresets": [
     {
       "name": "windows-x64-vs2022-debug",
-      "configurePreset": "windows-x64-vs2022-debug",
+      "displayName": "Build Windows x64 Debug (VS2022)",
       "description": "Build the default x64 Debug preset using Visual Studio 2022",
+      "configurePreset": "windows-x64-vs2022-debug",
+      "configuration": "Debug",
       "jobs": 8
     },
     {
       "name": "windows-x64-vs2022-release",
-      "configurePreset": "windows-x64-vs2022-release",
+      "displayName": "Build Windows x64 Release (VS2022)",
       "description": "Build the default x64 Release preset using Visual Studio 2022",
+      "configurePreset": "windows-x64-vs2022-release",
+      "configuration": "Release",
       "jobs": 8
     }
   ]
