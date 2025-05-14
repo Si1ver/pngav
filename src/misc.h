@@ -5,8 +5,6 @@
 #ifndef _MISC_H
 #  define _MISC_H
 
-#  include "compiler_specific.h"
-
 #  include <windows.h>
 #  include <assert.h>
 
