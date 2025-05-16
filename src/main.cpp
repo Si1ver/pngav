@@ -2,17 +2,21 @@
 // pngav
 
 #include <algorithm>
+#include <cassert>
 #include <clocale>
 #include <list>
 #include <string>
 #include <vector>
 
+#define NOMINMAX
+
+#include <windows.h>
+#include <shellapi.h>
+
 #include <png.h>
 
-#include "misc.h"
 #include "resource.h"
 #include "spi.h"
-
 
 HINSTANCE hInst;
 
@@ -211,8 +215,8 @@ class PNGAlphaViewer
 {
   using DisplayList = std::list<std::string>;
 
-  HWND m_hwnd;// 
-  HDC m_memDc;// 
+  HWND m_hwnd;//
+  HDC m_memDc;//
   BYTE *m_dib = nullptr;// DIB
   POINT m_point = {};// ウィンドウの位置
   SIZE m_size = {};// ウィンドウの大きさ
@@ -567,7 +571,8 @@ class PNGAlphaViewer
       m_hBInfo(nullptr)
   {
     m_spiManager.load();
-    ASSERT(m_memDc);
+
+    assert(m_memDc != 0);
 
     if (2 < __argc && std::string("-s") == __argv[1]) {
       std::vector<std::string> files;
@@ -757,7 +762,7 @@ public:
     wc.lpszMenuName = nullptr;
     wc.lpszClassName = "PNGAlphaViewer";
     ATOM atom = RegisterClass(&wc);
-    ASSERT(atom != 0);
+    assert(atom != 0);
     return atom;
   }
 };
@@ -771,7 +776,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 {
   hInst = hInstance;
 
-  CHECK(!!, setlocale(LC_ALL, ""));
+  [[maybe_unused]] char* prev_locale_string = setlocale(LC_ALL, "");
+
+  assert(prev_locale_string != nullptr);
 
   PNGAlphaViewer::registerClass();
 

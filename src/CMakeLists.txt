@@ -7,7 +7,6 @@ target_sources(pngav PRIVATE
     main.cpp
     registry.cpp
     spi.cpp
-    misc.h
     registry.h
     resource.h
     spi.h
