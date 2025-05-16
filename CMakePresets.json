@@ -7,48 +7,90 @@
   },
   "configurePresets": [
     {
-      "name": "windows-x64-vs2022-debug",
-      "displayName": "Configure Windows x64 Debug (VS2022)",
-      "description": "Configures a Debug build using Visual Studio 2022 for x64 architecture.",
+      "name": "windows-vs2022",
+      "hidden": true,
+      "description": "A base preset for generating solutions for Windows builds using Visual Studio 2022.",
       "generator": "Visual Studio 17 2022",
-      "architecture": {
-        "value": "x64"
-      },
-      "toolchainFile": "$env{VCPKG_ROOT}\\scripts\\buildsystems\\vcpkg.cmake",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_CONFIGURATION_TYPES": "Debug"
-      }
-    },
-    {
-      "name": "windows-x64-vs2022-release",
-      "displayName": "Configure Windows x64 Release (VS2022)",
-      "description": "Configures a Release build using Visual Studio 2022 for x64 architecture.",
-      "generator": "Visual Studio 17 2022",
-      "architecture": {
-        "value": "x64"
-      },
       "toolchainFile": "$env{VCPKG_ROOT}\\scripts\\buildsystems\\vcpkg.cmake",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "CMAKE_CONFIGURATION_TYPES": "Release"
+        "CMAKE_CONFIGURATION_TYPES": "Release;RelWithDebInfo;Debug"
+      }
+    },
+    {
+      "name": "windows-x86-vs2022",
+      "displayName": "Configure Windows x86 (VS2022)",
+      "description": "Generate a solution for a Windows x86 build using Visual Studio 2022.",
+      "inherits": "windows-vs2022",
+      "architecture": {
+        "value": "Win32"
+      }
+    },
+    {
+      "name": "windows-x64-vs2022",
+      "displayName": "Configure Windows x64 (VS2022)",
+      "description": "Generate a solution for a Windows x64 build using Visual Studio 2022.",
+      "inherits": "windows-vs2022",
+      "architecture": {
+        "value": "x64"
+      }
+    },
+    {
+      "name": "windows-arm64-vs2022",
+      "displayName": "Configure Windows arm64 (VS2022)",
+      "description": "Generate a solution for a Windows arm64 build using Visual Studio 2022.",
+      "inherits": "windows-vs2022",
+      "architecture": {
+        "value": "ARM64"
       }
     }
   ],
   "buildPresets": [
     {
+      "name": "windows-x86-vs2022-debug",
+      "displayName": "Build Windows x86 Debug (VS2022)",
+      "description": "Build Windows x86 Debug configuration using Visual Studio 2022",
+      "configurePreset": "windows-x86-vs2022",
+      "configuration": "Debug",
+      "jobs": 8
+    },
+    {
+      "name": "windows-x86-vs2022-release",
+      "displayName": "Build Windows x86 Release (VS2022)",
+      "description": "Build Windows x86 Release configuration using Visual Studio 2022",
+      "configurePreset": "windows-x86-vs2022",
+      "configuration": "Release",
+      "jobs": 8
+    },
+    {
       "name": "windows-x64-vs2022-debug",
       "displayName": "Build Windows x64 Debug (VS2022)",
-      "description": "Build the default x64 Debug preset using Visual Studio 2022",
-      "configurePreset": "windows-x64-vs2022-debug",
+      "description": "Build Windows x64 Debug configuration using Visual Studio 2022",
+      "configurePreset": "windows-x64-vs2022",
       "configuration": "Debug",
       "jobs": 8
     },
     {
       "name": "windows-x64-vs2022-release",
       "displayName": "Build Windows x64 Release (VS2022)",
-      "description": "Build the default x64 Release preset using Visual Studio 2022",
-      "configurePreset": "windows-x64-vs2022-release",
+      "description": "Build Windows x64 Release configuration using Visual Studio 2022",
+      "configurePreset": "windows-x64-vs2022",
+      "configuration": "Release",
+      "jobs": 8
+    },
+    {
+      "name": "windows-arm64-vs2022-debug",
+      "displayName": "Build Windows arm64 Debug (VS2022)",
+      "description": "Build Windows arm64 Debug configuration using Visual Studio 2022",
+      "configurePreset": "windows-arm64-vs2022",
+      "configuration": "Debug",
+      "jobs": 8
+    },
+    {
+      "name": "windows-arm64-vs2022-release",
+      "displayName": "Build Windows arm64 Release (VS2022)",
+      "description": "Build Windows arm64 Release configuration using Visual Studio 2022",
+      "configurePreset": "windows-arm64-vs2022",
       "configuration": "Release",
       "jobs": 8
     }
