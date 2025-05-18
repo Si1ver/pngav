@@ -28,4 +28,4 @@ For the development plan, see [docs/todo.md](docs/todo.md).
 
 ## License
 
-See the [docs/original/readme.txt](docs/original/readme.txt) file for details.
+See the [LICENSE.md](LICENSE.md) file for details.
