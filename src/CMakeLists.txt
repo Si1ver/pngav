@@ -7,10 +7,10 @@ target_sources(pngav PRIVATE
     main.cpp
     registry.cpp
     spi.cpp
-    registry.h
-    resource.h
-    spi.h
+    registry.hpp
+    spi.hpp
     pngav.rc
+    resource.h
     pngav.ico
 )
 

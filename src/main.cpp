@@ -16,7 +16,7 @@
 #include <png.h>
 
 #include "resource.h"
-#include "spi.h"
+#include "spi.hpp"
 
 HINSTANCE hInst;
 
