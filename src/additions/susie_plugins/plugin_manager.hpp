@@ -5,6 +5,11 @@
 //
 // Author: @Si1ver, 2025.
 
+#pragma once
+
+#ifndef ADDITIONS_SUSIE_PLUGINS_PLUGIN_MANAGER_HPP
+#define ADDITIONS_SUSIE_PLUGINS_PLUGIN_MANAGER_HPP
+
 #include <filesystem>
 
 namespace additions::susie_plugins {
@@ -15,3 +20,5 @@ public:
 };
 
 }  // namespace additions::susie_plugins
+
+#endif  // ADDITIONS_SUSIE_PLUGINS_PLUGIN_MANAGER_HPP

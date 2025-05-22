@@ -9,7 +9,7 @@
 #include <string>
 
 #include <sys/types.h>
-#include <Windows.h>
+#include "additions/windows.hpp"
 
 namespace SPI {
 #  pragma pack(push, 1)

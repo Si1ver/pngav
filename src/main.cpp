@@ -8,9 +8,7 @@
 #include <string>
 #include <vector>
 
-#define NOMINMAX
-
-#include <windows.h>
+#include "additions/windows.hpp"
 #include <shellapi.h>
 
 #include <png.h>

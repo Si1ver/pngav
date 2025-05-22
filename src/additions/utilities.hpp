@@ -5,6 +5,11 @@
 //
 // Author: @Si1ver, 2025.
 
+#pragma once
+
+#ifndef ADDITIONS_UTILITIES_HPP
+#define ADDITIONS_UTILITIES_HPP
+
 #include <filesystem>
 
 namespace additions {
@@ -15,3 +20,5 @@ public:
 };
 
 }  // namespace additions
+
+#endif  // ADDITIONS_UTILITIES_HPP

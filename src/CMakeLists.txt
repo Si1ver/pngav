@@ -13,6 +13,7 @@ target_sources(pngav PRIVATE
     spi.hpp
     additions/utilities.hpp
     additions/susie_plugins/plugin_manager.hpp
+    additions/windows.hpp
     pngav.rc
     resource.h
     pngav.ico
