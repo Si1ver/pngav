@@ -151,7 +151,7 @@ public:
   ~PlugIn();
 
   // SPI モジュールのロード
-  bool load(const std::string &i_path);
+  bool load(const std::wstring &i_path);
 
   // SPI モジュールのアンロード
   void unload();
@@ -180,7 +180,7 @@ public:
   ~Manager();
 
   // SPI のロード
-  bool load(const std::string &i_path = "");
+  bool load();
 
   // SPI のアンロード
   void unload();
@@ -189,10 +189,7 @@ public:
   PlugIn *getPlugIn(const std::string &i_filename);
 
   // SPI の存在するパスを取得する
-  static std::string getPath();
-
-  // SPI の存在するパスを設定する
-  static bool setPath(const std::string &i_path);
+  static std::wstring getPath();
 };
 }
 

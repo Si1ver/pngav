@@ -6,7 +6,7 @@
 #include <mbstring.h>
 #include <shlwapi.h>
 
-#include "registry.hpp"
+#include "additions/susie_plugins/plugin_manager.hpp"
 
 namespace SPI {
 /////////////////////////////////////////////////////////////////////////////
@@ -59,10 +59,10 @@ PlugIn::PlugIn()
 PlugIn::~PlugIn() { unload(); }
 
 // SPI モジュールのロード
-bool PlugIn::load(const std::string &i_path)
+bool PlugIn::load(const std::wstring &i_path)
 {
   unload();
-  m_hModule = LoadLibrary(i_path.c_str());
+  m_hModule = LoadLibraryW(i_path.c_str());
   if (!m_hModule) return false;
 
   getPluginInfo
@@ -132,23 +132,26 @@ const PlugIn::Type *PlugIn::doesMatch(const std::string &i_filename)
 Manager::~Manager() { unload(); }
 
 // SPI のロード
-bool Manager::load(const std::string &i_path)
+bool Manager::load()
 {
   unload();
 
-  std::string path = i_path;
-  if (path.empty()) path = getPath();
-  path += "\\";
+  std::wstring path = getPath();
+
+  if (!path.empty() && path.back() != L'\\') {
+    path += L'\\';
+  }
 
   // SPI をロード
-  WIN32_FIND_DATA fd;
-  std::string pattern = path + "*.spi";
-  HANDLE hff = FindFirstFile(pattern.c_str(), &fd);
+  WIN32_FIND_DATAW fd = {};
+  std::wstring pattern = path + L"*.spi";
+  HANDLE hff = FindFirstFileW(pattern.c_str(), &fd);
+
   if (hff == INVALID_HANDLE_VALUE) return false;
   do {
     m_plugIns.emplace_back();
     m_plugIns.back().load(path + fd.cFileName);
-  } while (FindNextFile(hff, &fd));
+  } while (FindNextFileW(hff, &fd));
   FindClose(hff);
   return true;
 }
@@ -166,28 +169,8 @@ PlugIn *Manager::getPlugIn(const std::string &i_filename)
 }
 
 // SPI の存在するパスを取得する
-std::string Manager::getPath()
+std::wstring Manager::getPath()
 {
-  char buf[1024] = ".";
-  if (GetModuleFileName(nullptr, buf, sizeof(buf))) {
-    auto s = (char *)_mbsrchr((unsigned char *)buf, '\\');
-    if (s) *s = '\0';
-  }
-  std::string path;
-  Registry::read(HKEY_CURRENT_USER,
-    R"(Software\Takechin\Susie\Plug-in)",
-    "Path",
-    &path,
-    buf);
-  return path;
-}
-
-// SPI の存在するパスを設定する
-bool Manager::setPath(const std::string &i_path)
-{
-  return Registry::write(HKEY_CURRENT_USER,
-    R"(Software\Takechin\Susie\Plug-in)",
-    "Path",
-    i_path);
+  return additions::susie_plugins::PluginManager::getPluginPath().wstring();
 }
 }
