@@ -2,7 +2,8 @@
 
 PNG Alpha Viewer is a lightweight PNG viewer that supports proper alpha (transparency) rendering.
 
-> **Note:** This viewer was developed in the late 1990s, back when proper PNG support was a common issue. It is likely obsolete in modern environments.
+> **Note:** This viewer was developed in the late 1990s, back when proper PNG support was a common issue. \
+> It is likely obsolete in modern environments.
 
 ## Fork Notice
 

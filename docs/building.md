@@ -63,7 +63,7 @@ To build the tool from source, install the following:
 
 2. Build the tool executable
 
-    CMake build presets for the most common build configurations are defined in the `CMakePresets.json`.
+    CMake build presets for common build configurations are defined in the `CMakePresets.json` file.
 
     Execute the following command to build the generated solution using CMake:
 
@@ -91,5 +91,5 @@ To build the tool from source, install the following:
     cmake --build build --preset windows-x64-vs2022-release
     ```
 
-    Alternatively, the generated solution can be built using Visual Studio. \
-    Open the `pngav.sln` solution file in Visual Studio and use `Build -> Build Solution` to produce an executable application.
+    > Note: The generated solution can be built using Visual Studio. \
+    > Open the `pngav.sln` solution file in Visual Studio and select `Build > Build Solution` from the menu to produce an executable application.
