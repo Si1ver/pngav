@@ -24,7 +24,7 @@ There is no guarantee that any of these changes will actually be implemented.
 
 - [x] Add license information according to original license.
 
-- [ ] Add building instructions.
+- [x] Add building instructions.
 
 - [ ] Add usage documentation based on original docs.
 

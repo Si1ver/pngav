@@ -24,6 +24,8 @@ For usage instructions, see [docs/original/readme.txt](docs/original/readme.txt)
 
 ## Development
 
+For building instructions, see [docs/building.md](docs/building.md).
+
 For the development plan, see [docs/todo.md](docs/todo.md).
 
 ## License
