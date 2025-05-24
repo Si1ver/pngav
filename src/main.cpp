@@ -254,12 +254,12 @@ class PNGAlphaViewer
       ULW_ALPHA);
   }
 
-  void setOpaque(RECT *i_rc)
+  void setOpaque(const RECT &i_rc)
   {
     // αを 0xff に。
-    for (int y = i_rc->top; y < i_rc->bottom; y++) {
-      BYTE *d = m_dib + (m_size.cx * (m_size.cy - y - 1) + i_rc->left) * 4;
-      for (int x = i_rc->left; x < i_rc->right; x++) {
+    for (int y = i_rc.top; y < i_rc.bottom; y++) {
+      BYTE *d = m_dib + (m_size.cx * (m_size.cy - y - 1) + i_rc.left) * 4;
+      for (int x = i_rc.left; x < i_rc.right; x++) {
         d[3] = 0xff;
         d += 4;
       }
@@ -327,7 +327,7 @@ class PNGAlphaViewer
 
     // Gdi のαを設定
     RECT rcGdi = { 0, 0, m_size.cx, m_size.cy };
-    setOpaque(&rcGdi);
+    setOpaque(rcGdi);
 
     // 絵を描く
     if (hasImage()) {
@@ -359,14 +359,14 @@ class PNGAlphaViewer
           m_bInfo,
           DIB_RGB_COLORS,
           SRCCOPY);
-        setOpaque(&rcGdi);
+        setOpaque(rcGdi);
       } else if (isError()) {
         SetTextAlign(m_memDc, TA_TOP);
         RECT rc = { ptDest.x, ptDest.y,
                     ptDest.x + size.cx, ptDest.y + size.cy };
         FillRect(m_memDc, &rc, static_cast<HBRUSH>(GetStockObject(DC_BRUSH)));
         TextOut(m_memDc, ptDest.x, ptDest.y, m_error.c_str(), m_error.size());
-        setOpaque(&rcGdi);
+        setOpaque(rcGdi);
       }
 
       if (size.cx < m_imageSize.cx ||
@@ -377,7 +377,7 @@ class PNGAlphaViewer
         DrawFrameControl(m_memDc, &rcSize, DFC_SCROLL, DFCS_SCROLLSIZEGRIP);
 
         GdiFlush();
-        setOpaque(&rcSize);
+        setOpaque(rcSize);
       }
     }
 
