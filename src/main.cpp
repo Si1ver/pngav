@@ -494,7 +494,7 @@ class PNGAlphaViewer
           char buf[1024];
           snprintf(buf,
             std::size(buf),
-            "%s (%dx%d)",
+            "%s (%ldx%ld)",
             filename,
             m_imageSize.cx,
             m_imageSize.cy);
