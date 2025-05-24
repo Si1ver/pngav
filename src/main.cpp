@@ -106,8 +106,11 @@ public:
 
 Image *readPng(const char *i_filename)
 {
-  FILE *fp = fopen(i_filename, "rb");
-  if (!fp) return nullptr;
+  FILE *fp = nullptr;
+  errno_t error_code = fopen_s(&fp, i_filename, "rb");
+  if (error_code != 0) {
+    return nullptr;
+  }
 
   constexpr int error = 0;
 
