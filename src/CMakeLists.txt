@@ -9,12 +9,16 @@ target_sources(pngav PRIVATE
     main.cpp
     spi.cpp
     additions/utilities.cpp
+    additions/viewer_window.cpp
+    additions/winapi_wrappers.cpp
     additions/susie_plugins/plugin_manager.cpp
     spi.hpp
     additions/utilities.hpp
-    additions/susie_plugins/plugin_manager.hpp
+    additions/viewer_window.hpp
+    additions/winapi_wrappers.hpp
     additions/windows.hpp
-    pngav.rc
+    additions/susie_plugins/plugin_manager.hpp
+    resource.rc
     resource.h
     pngav.ico
 )

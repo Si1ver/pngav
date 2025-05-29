@@ -13,11 +13,9 @@
 
 #include <png.h>
 
+#include "additions/viewer_window.hpp"
 #include "resource.h"
 #include "spi.hpp"
-
-HINSTANCE hInst;
-
 
 class Image
 {
@@ -694,7 +692,7 @@ class PNGAlphaViewer
     }
   }
 
-  //
+public:
   static LRESULT CALLBACK wndProc(HWND i_hwnd,
     UINT i_message,
     WPARAM i_wParam,
@@ -746,65 +744,27 @@ class PNGAlphaViewer
       }
     return DefWindowProc(i_hwnd, i_message, i_wParam, i_lParam);
   }
-
-public:
-  // register class
-  static ATOM registerClass()
-  {
-    WNDCLASS wc = {};
-    wc.style = 0;
-    wc.lpfnWndProc = wndProc;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = sizeof(PNGAlphaViewer *);
-    wc.hInstance = hInst;
-    wc.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ICON_PNGAV));
-    wc.hCursor = LoadCursor(nullptr, MAKEINTRESOURCE(IDC_HAND));
-    wc.hbrBackground = nullptr;
-    wc.lpszMenuName = nullptr;
-    wc.lpszClassName = "PNGAlphaViewer";
-    ATOM atom = RegisterClass(&wc);
-    assert(atom != 0);
-    return atom;
-  }
 };
-
 
 // main
 int WINAPI WinMain(HINSTANCE hInstance,
   [[maybe_unused]] HINSTANCE hPrevInstance,
   [[maybe_unused]] LPSTR lpszCmdLine,
-  [[maybe_unused]] int nCmdShow)
+  int nCmdShow)
 {
-  hInst = hInstance;
-
   [[maybe_unused]] char* prev_locale_string = setlocale(LC_ALL, "");
 
   assert(prev_locale_string != nullptr);
 
-  PNGAlphaViewer::registerClass();
+  auto viewer_window = additions::ViewerWindow::TryCreateViewerWindow(hInstance, PNGAlphaViewer::wndProc);
 
-  HWND hwndPNGAlphaViewer
-    = CreateWindowEx(WS_EX_ACCEPTFILES | WS_EX_LAYERED,
-      "PNGAlphaViewer",
-      nullptr,
-      WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT,
-      CW_USEDEFAULT,
-      100,
-      100,
-      nullptr,
-      nullptr,
-      hInst,
-      nullptr);
-  ShowWindow(hwndPNGAlphaViewer, SW_SHOWDEFAULT);
-
-  MSG msg = {};
-  while (0 < GetMessage(&msg, nullptr, 0, 0)) {
-    TranslateMessage(&msg);
-    DispatchMessage(&msg);
+  if (viewer_window == nullptr) {
+    return 0;
   }
 
-  DestroyWindow(hwndPNGAlphaViewer);
+  viewer_window->Show(nCmdShow);
 
-  return static_cast<int>(msg.wParam);
+  int exit_code = viewer_window->RunWindowEventLoop();
+
+  return exit_code;
 }
