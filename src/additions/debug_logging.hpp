@@ -28,7 +28,7 @@ public:
   static void Log(const char* message) {
     if (IsDebuggerPresent()) {
       OutputDebugStringA(message);
-      OutputDebugStringW(L"\n");
+      OutputDebugStringA("\n");
     }
   }
 

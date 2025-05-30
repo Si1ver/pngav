@@ -130,7 +130,7 @@ bool ViewerWindow::TryLoadResources(HINSTANCE module_instance, Resources &resour
 {
   // TODO: Use resource ID from resource.h.
   // For now, a hardcoded value is used to avoid including file from parent directory.
-  const int icon_resource_id = 101;
+  constexpr int icon_resource_id = 101;
 
   auto icon_handle = WinApiWrappers::TryLoadIconFromModuleResource(module_instance, icon_resource_id);
   if (!icon_handle.has_value()) {
