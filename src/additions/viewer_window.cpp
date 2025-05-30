@@ -7,6 +7,7 @@
 
 #include "additions/viewer_window.hpp"
 
+#include "additions/debug_logging.hpp"
 #include "additions/winapi_wrappers.hpp"
 
 namespace additions {
@@ -32,7 +33,7 @@ std::unique_ptr<ViewerWindow> ViewerWindow::TryCreateViewerWindow(HINSTANCE modu
   Resources resources = {};
 
   if (!TryLoadResources(module_instance, resources)) {
-    // TODO: Log diagnostic message.
+    DebugLogging::Log(L"Failed to load resources for ViewerWindow.");
     return nullptr;
   }
 
@@ -50,7 +51,7 @@ std::unique_ptr<ViewerWindow> ViewerWindow::TryCreateViewerWindow(HINSTANCE modu
       sizeof(ViewerWindow*));  // Pointer to implementation is stored with window instance.
 
   if (!window_class.has_value()) {
-    // TODO: Log diagnostic message.
+    DebugLogging::Log(L"Failed to register window class for ViewerWindow.");
     return nullptr;
   }
 
@@ -66,7 +67,7 @@ std::unique_ptr<ViewerWindow> ViewerWindow::TryCreateViewerWindow(HINSTANCE modu
       200, 100);
 
   if (!window_handle.has_value()) {
-    // TODO: Log diagnostic message.
+    DebugLogging::Log(L"Failed to create viewer window.");
     return nullptr;
   }
 
@@ -81,7 +82,7 @@ std::unique_ptr<ViewerWindow> ViewerWindow::TryCreateViewerWindow(HINSTANCE modu
  */
 void ViewerWindow::Show(int show_command) {
   if (viewer_window_handle == nullptr) {
-    // TODO: Log diagnostic message.
+    DebugLogging::Log(L"Viewer window handle is null, cannot show the window.");
     return;
   }
 
@@ -97,7 +98,7 @@ void ViewerWindow::Show(int show_command) {
  */
 int ViewerWindow::RunWindowEventLoop() {
   if (viewer_window_handle == nullptr) {
-    // TODO: Log diagnostic message.
+    DebugLogging::Log(L"Viewer window handle is null, cannot run event loop.");
     return -1;
   }
 
@@ -107,7 +108,7 @@ int ViewerWindow::RunWindowEventLoop() {
   while ((get_message_result = GetMessageW(&message, nullptr, 0, 0))) {
     if (get_message_result == -1) {
       // Error occurred while getting message.
-      // TODO: Log diagnostic message.
+      DebugLogging::Log(L"Error occurred while getting message in ViewerWindow event loop.");
       return -1;
     }
 
@@ -133,13 +134,13 @@ bool ViewerWindow::TryLoadResources(HINSTANCE module_instance, Resources &resour
 
   auto icon_handle = WinApiWrappers::TryLoadIconFromModuleResource(module_instance, icon_resource_id);
   if (!icon_handle.has_value()) {
-    // TODO: Log diagnostic message.
+    DebugLogging::Log(L"Failed to load icon from module resources.");
     return false;
   }
 
   auto cursor_handle = WinApiWrappers::TryLoadSystemCursor(SystemCursor::Cross);
   if (!cursor_handle.has_value()) {
-    // TODO: Log diagnostic message.
+    DebugLogging::Log(L"Failed to load system cursor.");
     return false;
   }
 

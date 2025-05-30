@@ -13,6 +13,7 @@ target_sources(pngav PRIVATE
     additions/winapi_wrappers.cpp
     additions/susie_plugins/plugin_manager.cpp
     spi.hpp
+    additions/debug_logging.hpp
     additions/utilities.hpp
     additions/viewer_window.hpp
     additions/winapi_wrappers.hpp

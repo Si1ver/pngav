@@ -13,6 +13,7 @@
 
 #include <png.h>
 
+#include "additions/debug_logging.hpp"
 #include "additions/viewer_window.hpp"
 #include "resource.h"
 #include "spi.hpp"
@@ -759,6 +760,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
   auto viewer_window = additions::ViewerWindow::TryCreateViewerWindow(hInstance, PNGAlphaViewer::wndProc);
 
   if (viewer_window == nullptr) {
+    additions::DebugLogging::Log(L"Failed to create ViewerWindow.");
     return 0;
   }
 

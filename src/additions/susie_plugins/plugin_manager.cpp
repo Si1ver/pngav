@@ -13,6 +13,7 @@
 
 #include <winreg/WinReg.hpp>
 
+#include "additions/debug_logging.hpp"
 #include "additions/utilities.hpp"
 
 namespace additions::susie_plugins {
@@ -51,7 +52,7 @@ std::filesystem::path PluginManager::getPluginPath()
         } catch (...) {
           // Path from registry is invalid (e.g., malformed or inaccessible).
           // Silently fall back to executable directory.
-          // TODO: Consider logging the exception for diagnostics.
+          DebugLogging::Log(L"Invalid plugin path from registry, falling back to executable directory.");
         }
       }
     }
